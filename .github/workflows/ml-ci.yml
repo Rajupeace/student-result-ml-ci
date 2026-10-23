@@ -41,6 +41,8 @@ jobs:
           cp student_result_model.pkl release_candidate/
           cp metrics.json release_candidate/
           cp requirements.txt release_candidate/
+          cp Dockerfile release_candidate/
+          cp .dockerignore release_candidate/
           printf '%s\n' \
             'Student Result Prediction ML Application' \
             'Run: python app.py' \
