@@ -58,4 +58,5 @@ jobs:
           push: true
           tags: |
             ghcr.io/rajupeace/student-result-prediction:latest
+            ghcr.io/rajupeace/student-result-prediction:v1
             ghcr.io/rajupeace/student-result-prediction:sha-${{ github.sha }}
