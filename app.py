@@ -32,6 +32,11 @@ def health_check():
     })
 
 
+@app.get("/health")
+def health_endpoint():
+    return jsonify({"status": "healthy"})
+
+
 @app.post("/predict")
 def predict():
     data = request.get_json(silent=True)
