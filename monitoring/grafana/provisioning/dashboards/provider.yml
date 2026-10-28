@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: Student Result API
+    orgId: 1
+    folder: Student Result API
+    type: file
+    disableDeletion: true
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards

@@ -43,8 +43,15 @@ jobs:
             if curl --fail --silent http://localhost:5000/health; then break; fi
             sleep 2
           done
+          curl --fail --silent --show-error http://localhost:5000/metrics | tee metrics.txt
+          grep -q 'student_api_model_loaded 1' metrics.txt
           curl --fail --silent --show-error -X POST -H 'Content-Type: application/json' -d '{"attendance":90,"internal_marks":85,"assignment_marks":88,"previous_score":80}' http://localhost:5000/predict | tee prediction.json
           grep -q '"prediction"' prediction.json
+          invalid_status=$(curl --silent --output invalid.json --write-out '%{http_code}' -X POST -H 'Content-Type: application/json' -d '{"attendance":"invalid","internal_marks":85,"assignment_marks":88,"previous_score":80}' http://localhost:5000/predict)
+          test "$invalid_status" = "400"
+          grep -q 'invalid_fields' invalid.json
+          missing_route_status=$(curl --silent --output /dev/null --write-out '%{http_code}' http://localhost:5000/not-a-route)
+          test "$missing_route_status" = "404"
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v4
         with:
