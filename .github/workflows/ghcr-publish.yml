@@ -15,6 +15,18 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Train model and generate Docker inputs
+        run: python train_model.py
+      - name: Check ML quality gate
+        run: python quality_gate.py
+      - name: Run ML and API tests
+        run: python -m unittest test_ml_pipeline.py test_app.py -v
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
       - name: Build image
